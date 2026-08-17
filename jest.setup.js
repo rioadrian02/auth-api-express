@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
 
-process.env.PGDATABASE = process.env.PGDATABASE_TEST;
+dotenv.config({
+    path: path.resolve(process.cwd(), '.test.env'),
+});

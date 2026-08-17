@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import RegisterUser from '../users/RegisterUser';
+import RegisterUser from '../RegisterUser.js';
 
 describe('RegsiterUser', () => {
     test('harus error jika property tidak lengkap', () => {

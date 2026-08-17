@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import pkg from 'pg';
 const { Pool } = pkg;
 import UserRepository from "../../Domains/users/UserRepository.js";
-import RegisteredUser from "../../Domains/users/RegisteredUser.js";
+import RegisteredUser from "../../Domains/users/entities/RegisteredUser.js";
 import InvariantError from "../../Commons/exceptions/InvariantError.js";
 import NotFoundError from "../../Commons/exceptions/NotFoundError.js";
 
