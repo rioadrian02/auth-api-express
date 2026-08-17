@@ -1,4 +1,5 @@
 import AuthenticationError from '../AuthenticationError.js';
+import { jest } from '@jest/globals';
  
 describe('AuthenticationError', () => {
   it('should create AuthenticationError correctly', () => {

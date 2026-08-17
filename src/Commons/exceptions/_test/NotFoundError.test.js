@@ -1,4 +1,5 @@
 import NotFoundError from '../NotFoundError.js';
+import { jest } from '@jest/globals';
  
 describe('NotFoundError', () => {
   it('should create error correctly', () => {

@@ -1,5 +1,6 @@
 import InvariantError from '../InvariantError.js';
- 
+import { jest } from '@jest/globals';
+
 describe('InvariantError', () => {
   it('should create an error correctly', () => {
     const invariantError = new InvariantError('an error occurs');
