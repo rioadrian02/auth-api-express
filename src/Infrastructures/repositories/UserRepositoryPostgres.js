@@ -1,15 +1,13 @@
-import { nanoid } from "nanoid";
-import pkg from 'pg';
-const { Pool } = pkg;
 import UserRepository from "../../Domains/users/UserRepository.js";
 import RegisteredUser from "../../Domains/users/entities/RegisteredUser.js";
 import InvariantError from "../../Commons/exceptions/InvariantError.js";
 import NotFoundError from "../../Commons/exceptions/NotFoundError.js";
 
 class UserRepositoryPostgres extends UserRepository {
-    constructor() {
+    constructor(pool, idGenerator) {
         super();
-        this._pool = new Pool();
+        this._pool = pool;
+        this._idGenerator = idGenerator;
     }
 
     async verifyAvailableUsername(username) {
@@ -26,7 +24,8 @@ class UserRepositoryPostgres extends UserRepository {
     }
 
     async addUser({username, password, fullname}) {
-        const id = `user-${nanoid(16)}`;
+        const id = `user-${this._idGenerator()}`;
+        
         const createdAt = new Date().toISOString();
 
         const query = {

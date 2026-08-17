@@ -1,16 +1,18 @@
-import bcrypt from 'bcrypt';
+import PasswordHash from '../../Applications/security/PasswordHash';
 
-class BcryptPasswordHash {
-    constructor(saltRound = 10) {
+class BcryptPasswordHash extends PasswordHash {
+    constructor(bcrypt, saltRound = 10) {
+        super();
+        this._bcrypt = bcrypt;
         this._saltRound = saltRound;
     }
 
     async hash(password) {
-        return bcrypt.hash(password, this._saltRound);
+        return this._bcrypt.hash(password, this._saltRound);
     }
 
     async comparePassword (password, hashedPassword) {
-        return bcrypt.compare(password, hashedPassword);
+        return this._bcrypt.comparePassword(password, hashedPassword);
     }
 }
 
