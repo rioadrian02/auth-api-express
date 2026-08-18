@@ -1,5 +1,5 @@
 import AuthenticationError from "../../Commons/exceptions/AuhtenticationError.js";
-import LoginUser from "../../Domains/users/LoginUser.js";
+import LoginUser from "../../Domains/authentications/entities/LoginUser.js";
 
 class LoginUserUseCase {
     constructor({ userRepository, authenticationRepository, tokenManager, passwordHash }) {

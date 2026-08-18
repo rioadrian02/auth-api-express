@@ -1,4 +1,4 @@
-import UpdateFullname from '../../Domains/users/UpdateFullname.js';
+import UpdateFullname from '../../Domains/users/entities/UpdateFullname.js';
 
 class UpdateFullnameUseCase{
     constructor({ userRepository }) {

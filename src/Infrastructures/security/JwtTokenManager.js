@@ -1,30 +1,24 @@
-import jwt from 'jsonwebtoken';
-import TokenManager from '../../Domains/authentications/TokenManager.js';
-import InvariantError from '../../Commons/exceptions/InvariantError.js';
+import TokenManager from '../../Applications/security/TokenManager.js';
 
 class JwtTokenManager extends TokenManager {
+    constructor (jwt) {
+        super();
+        this._jwt = jwt;
+    }
     async createAccessToken(payload) {
-        return jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, { expiresIn: '30m'});
+        return this._jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, { expiresIn: '30m'});
     }
 
     async createRefreshToken(payload) {
-        return jwt.sign(payload, process.env.REFRESH_TOKEN_KEY);
+        return this._jwt.sign(payload, process.env.REFRESH_TOKEN_KEY);
     }
 
     async verifyRefreshToken(token) {
-        try {
-            jwt.verify(token, process.env.REFRESH_TOKEN_KEY);
-        } catch {
-            throw new InvariantError('Refresh token tidak valid');
-        }
+        return this._jwt.verify(token, process.env.REFRESH_TOKEN_KEY);
     }
 
     async decodePayload(token) {
-        try {
-            return jwt.decode(token);
-        } catch {
-            throw new InvariantError('Token tidak valid');
-        }
+        return this._jwt.decode(token);
     }
 }
 

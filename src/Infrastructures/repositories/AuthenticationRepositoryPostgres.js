@@ -1,12 +1,10 @@
-import pkg from 'pg';
-const  { Pool } = pkg;
 import AuthenticationRepository from '../../Domains/authentications/AuthenticationRepository.js';
 import InvariantError from '../../Commons/exceptions/InvariantError.js';
 
 class AuthenticationRepositoryPostgres extends AuthenticationRepository {
-    constructor() {
+    constructor(pool) {
         super();
-        this._pool = new Pool();
+        this._pool = pool;
     }
 
     async addToken(token, userId) {

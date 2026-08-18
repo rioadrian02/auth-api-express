@@ -1,11 +1,15 @@
 import { createContainer } from 'instances-container';
 import { nanoid } from 'nanoid';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import pool from './database/postgres/pool.js';
 
 import UserRepository from '../Domains/users/UserRepository.js';
+import AuthenticationRepository from '../Domains/authentications/AuthenticationRepository.js';
 import UserRepositoryPostgres from './repositories/UserRepositoryPostgres.js';
 import AuthenticationRepositoryPostgres from './repositories/AuthenticationRepositoryPostgres.js';
+import TokenManager from '../Applications/security/TokenManager.js';
+
 import BcryptPasswordHash from './security/BcryptPasswordHash.js';
 import PasswordHash from '../Applications/security/PasswordHash.js';
 import JwtTokenManager from './security/JwtTokenManager.js';
@@ -19,11 +23,7 @@ import DeleteUserUseCase from '../Applications/use_case/DeleteUserUseCase.js';
 
 const container = createContainer();
 
-const userRepository = new UserRepositoryPostgres();
-const authenticationRepository = new AuthenticationRepositoryPostgres();
-const passwordHash = new BcryptPasswordHash();
-const tokenManager = new JwtTokenManager();
-
+// register repository dan services
 container.register([
     {
         key: UserRepository.name,
@@ -40,6 +40,17 @@ container.register([
         },
     },
     {
+        key: AuthenticationRepository.name,
+        Class: AuthenticationRepositoryPostgres,
+        parameter: {
+            dependencies: [
+                {
+                    concrete: pool,
+                },
+            ],
+        }
+    },
+    {
         key: PasswordHash.name,
         Class: BcryptPasswordHash,
         parameter: {
@@ -52,9 +63,21 @@ container.register([
                 },
             ],
         },
+    },
+    {
+        key: TokenManager.name,
+        Class: JwtTokenManager,
+        parameter: {
+            dependencies: [
+                {
+                    concrete: jwt,
+                }
+            ]
+        }
     }
 ]);
 
+// register use case
 container.register([
     {
         key: AddUserUseCase.name,
@@ -72,7 +95,105 @@ container.register([
                 }
             ]
         }
+    },
+    {
+        key: LoginUserUseCase.name,
+        Class: LoginUserUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'userRepository',
+                    internal: UserRepository.name
+                },
+                {
+                    name: 'authenticationRepository',
+                    internal: AuthenticationRepository.name
+                },
+                {
+                    name: 'tokenManager',
+                    internal: TokenManager.name
+                },
+                {
+                    name: 'passwordHash',
+                    internal: PasswordHash.name
+                }
+            ]
+        }
+    },
+    {
+        key: DetailUserUseCase.name,
+        Class: DetailUserUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'userRepository',
+                    internal: UserRepository.name
+                },
+            ]
+        }
+    },
+    {
+        key: LogoutUserUseCase.name,
+        Class: LogoutUserUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'authenticationRepository',
+                    internal: AuthenticationRepository.name
+                },
+            ]
+        }
+    },
+    {
+        key: UpdateFullnameUseCase.name,
+        Class: UpdateFullnameUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'userRepository',
+                    internal: UserRepository.name
+                },
+            ]
+        }
+    },
+    {
+        key: RefreshAuthenticationUseCase.name,
+        Class: RefreshAuthenticationUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'authenticationRepository',
+                    internal: AuthenticationRepository.name
+                },
+                {
+                    name: 'tokenManager',
+                    internal: TokenManager.name
+                },
+            ]
+        }
+    },
+    {
+        key: DeleteUserUseCase.name,
+        Class: DeleteUserUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'userRepository',
+                    internal: UserRepository.name
+                },
+                                {
+                    name: 'authenticationRepository',
+                    internal: AuthenticationRepository.name
+                },
+            ]
+        }
     }
-])
+]);
 
 export default container;
