@@ -1,10 +1,10 @@
-import routes from "./routes";
-import AuthenticationsController from "./controller";
+import routes from "./routes.js";
+import AuthenticationsController from "./controller.js";
 
-const authentications = (container) => {
+const authentications = (container, loginLimitter) => {
     const authenticationsController = new AuthenticationsController(container);
 
-    return routes(authenticationsController);
+    return routes(authenticationsController, loginLimitter);
 }
 
 export default authentications;

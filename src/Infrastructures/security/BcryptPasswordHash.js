@@ -1,4 +1,4 @@
-import PasswordHash from '../../Applications/security/PasswordHash';
+import PasswordHash from '../../Applications/security/PasswordHash.js';
 
 class BcryptPasswordHash extends PasswordHash {
     constructor(bcrypt, saltRound = 10) {
@@ -12,7 +12,7 @@ class BcryptPasswordHash extends PasswordHash {
     }
 
     async comparePassword (password, hashedPassword) {
-        return this._bcrypt.comparePassword(password, hashedPassword);
+        return this._bcrypt.compare(password, hashedPassword);
     }
 }
 

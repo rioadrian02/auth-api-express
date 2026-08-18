@@ -1,7 +1,7 @@
-import {Router} from 'express';
+import express from 'express';
 
 const routes = (controller) => {
-    const router = Router();
+    const router = express.Router();
 
     router.post('', controller.postUser);
     router.get('/:id', controller.getUserById);

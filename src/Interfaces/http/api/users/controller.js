@@ -2,7 +2,7 @@ import AddUserUseCase from "../../../../Applications/use_case/AddUserUseCase.js"
 import DeleteUserUseCase from "../../../../Applications/use_case/DeleteUserUseCase.js";
 import DetailUserUseCase from "../../../../Applications/use_case/DetailUserUseCase.js";
 import UpdateFullnameUseCase from "../../../../Applications/use_case/UpdateFullnameUseCase.js";
-import logger from "../../logger/index.js";
+import logger from "../../../../Infrastructures/logger/index.js";
 
 class UsersController {
     constructor(container) {

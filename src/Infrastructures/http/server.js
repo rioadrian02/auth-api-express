@@ -4,11 +4,10 @@ import cors from 'cors';
 import users from '../../Interfaces/http/api/users/index.js';
 import authentications from '../../Interfaces/http/api/authentications/index.js';
 import ErrorHandler from './middlewares/ErrorHandler.js';
-import { globalLimiter } from './middlewares/RateLimiter.js';
+import { globalLimiter, loginLimitter } from './middlewares/RateLimiter.js';
 import apiDocsMiddleware from './middlewares/ApiDocs.js';
-import container from '../container.js';
 
-const createServer = () => {
+const createServer = (container) => {
     const app = express();
 
     // using helmet
@@ -31,7 +30,7 @@ const createServer = () => {
     app.use('/users', users(container));
 
     // auth routes
-    app.use('/authentications', authentications(container));
+    app.use('/authentications', authentications(container, loginLimitter));
 
     // error handler
     app.use(ErrorHandler);

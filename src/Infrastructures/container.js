@@ -58,9 +58,6 @@ container.register([
                 {
                     concrete: bcrypt,
                 },
-                {
-                    concrete: nanoid,
-                },
             ],
         },
     },

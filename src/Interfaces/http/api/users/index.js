@@ -1,5 +1,5 @@
-import routes from "./routes";
-import UsersController from "./controller";
+import routes from "./routes.js";
+import UsersController from "./controller.js";
 
 const users = (container) => {
     const usersController = new UsersController(container);

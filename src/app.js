@@ -1,14 +1,16 @@
 import 'dotenv/config';
 import createServer from './Infrastructures/http/server.js';
 import logger from './Infrastructures/logger/index.js';
+import container from './Infrastructures/container.js';
+import config from './Commons/config.js';
 
-const app = createServer();
-const PORT  =  process.env.PORT || 3000;
+const app = createServer(container);
+const { host, port } = config.app;
 
 // simpan instance server ke dalam variabel supaya bisa kita tutup saat shutdown
-const server = app.listen(PORT, () => {
-    logger.info(`Server berjalan di http://localhost:${PORT}`, {
-        port: PORT,
+const server = app.listen(port, host, () => {
+    logger.info(`Server berjalan di http://${host}:${port}`, {
+        port: port,
         environment: process.env.NODE_ENV || 'development',
     });
 });

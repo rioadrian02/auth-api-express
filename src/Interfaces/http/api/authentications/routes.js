@@ -1,7 +1,7 @@
-import {Router} from 'express';
+import express from 'express';
 
 const routes = (controller, loginLimitter) => {
-    const router = Router();
+    const router = express.Router();
 
     router.post('', loginLimitter, controller.login);
     router.put('', controller.refreshToken);

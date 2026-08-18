@@ -1,11 +1,15 @@
 import LoginUserUseCase from "../../../../Applications/use_case/LoginUserUseCase.js";
 import LogoutUserUseCase from "../../../../Applications/use_case/LogoutUserUseCase.js";
 import RefreshAuthenticationUseCase from "../../../../Applications/use_case/RefreshAuthenticationUseCase.js";
-import logger from "../../logger/index.js";
+import logger from "../../../../Infrastructures/logger/index.js";
 
 class AuthenticationsController {
     constructor(container) {
         this._container = container;
+
+        this.login = this.login.bind(this);
+        this.refreshToken = this.refreshToken.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     async login(req, res, next) {
