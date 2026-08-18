@@ -1,11 +1,12 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import userRoutes from './routes/users.js';
-import authenticationRoutes from './routes/authentications.js';
+import users from '../../Interfaces/http/api/users/index.js';
+import authentications from '../../Interfaces/http/api/authentications/index.js';
 import ErrorHandler from './middlewares/ErrorHandler.js';
 import { globalLimiter } from './middlewares/RateLimiter.js';
 import apiDocsMiddleware from './middlewares/ApiDocs.js';
+import container from '../container.js';
 
 const createServer = () => {
     const app = express();
@@ -27,10 +28,10 @@ const createServer = () => {
     }
 
     // user routes
-    app.use('/users', userRoutes);
+    app.use('/users', users(container));
 
     // auth routes
-    app.use('/authentications', authenticationRoutes);
+    app.use('/authentications', authentications(container));
 
     // error handler
     app.use(ErrorHandler);
