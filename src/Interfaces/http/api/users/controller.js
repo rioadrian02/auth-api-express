@@ -1,10 +1,23 @@
-import container from "../../container.js";
+import AddUserUseCase from "../../../../Applications/use_case/AddUserUseCase.js";
+import DeleteUserUseCase from "../../../../Applications/use_case/DeleteUserUseCase.js";
+import DetailUserUseCase from "../../../../Applications/use_case/DetailUserUseCase.js";
+import UpdateFullnameUseCase from "../../../../Applications/use_case/UpdateFullnameUseCase.js";
 import logger from "../../logger/index.js";
 
-class UsersHandler {
+class UsersController {
+    constructor(container) {
+        this._container = container;
+
+        this.postUser = this.postUser.bind(this);
+        this.getUserById = this.getUserById.bind(this);
+        this.updateFullname = this.updateFullname.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+
+    }
+
     async postUser(req, res,next) {
         try {
-            const addUser = container.getInstance('AddUserUseCase');
+            const addUser = this._container.getInstance(AddUserUseCase.name);
             const registeredUser = await addUser.execute(req.body);
 
             logger.info('User berhasil registrasi', { userId: registeredUser.id });
@@ -22,7 +35,7 @@ class UsersHandler {
 
     async getUserById(req, res, next) {
         try {
-            const detailUserUseCase = container.getInstance('DetailUserUseCase');
+            const detailUserUseCase = this._container.getInstance(DetailUserUseCase.name);
 
             const user = await detailUserUseCase.execute(req.params);
 
@@ -39,7 +52,7 @@ class UsersHandler {
 
     async updateFullname(req, res, next) {
         try {
-            const updateFullnameUseCase = container.getInstance('UpdateFullnameUseCase');
+            const updateFullnameUseCase = this._container.getInstance(UpdateFullnameUseCase.name);
 
             const user = await updateFullnameUseCase.execute(req.body, req.params);
 
@@ -58,7 +71,7 @@ class UsersHandler {
 
     async deleteUser(req, res, next) {
         try {
-            const deleteUserUseCase = container.getInstance('DeleteUserUseCase');
+            const deleteUserUseCase = this._container.getInstance(DeleteUserUseCase.name);
 
             await deleteUserUseCase.execute({ userId: req.params.id});
 
@@ -73,4 +86,4 @@ class UsersHandler {
     }
 }
 
-export default new UsersHandler();
+export default UsersController;

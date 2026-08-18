@@ -1,10 +1,16 @@
-import container from "../../container.js";
+import LoginUserUseCase from "../../../../Applications/use_case/LoginUserUseCase.js";
+import LogoutUserUseCase from "../../../../Applications/use_case/LogoutUserUseCase.js";
+import RefreshAuthenticationUseCase from "../../../../Applications/use_case/RefreshAuthenticationUseCase.js";
 import logger from "../../logger/index.js";
 
-class AuthenticationsHandler {
+class AuthenticationsController {
+    constructor(container) {
+        this._container = container;
+    }
+
     async login(req, res, next) {
         try {
-            const loginUserUseCase = container.getInstance('LoginUserUseCase');
+            const loginUserUseCase = this._container.getInstance(LoginUserUseCase.name);
 
             const { accessToken, refreshToken } = await loginUserUseCase.execute(req.body);
 
@@ -24,7 +30,7 @@ class AuthenticationsHandler {
 
     async refreshToken(req, res, next) {
         try {
-            const refreshAuthenticationUseCase = container.getInstance('RefreshAuthenticationUseCase');
+            const refreshAuthenticationUseCase = this._container.getInstance(RefreshAuthenticationUseCase.name);
 
             const { accessToken } = await refreshAuthenticationUseCase.execute(req.body);
 
@@ -40,7 +46,7 @@ class AuthenticationsHandler {
 
     async logout(req, res, next) {
         try {
-            const logoutUserUseCase = container.getInstance('LogoutUserUseCase');
+            const logoutUserUseCase = this._container.getInstance(LogoutUserUseCase.name);
 
             await logoutUserUseCase.execute(req.body);
 
@@ -57,4 +63,4 @@ class AuthenticationsHandler {
     }
 }
 
-export default new AuthenticationsHandler();
+export default AuthenticationsController;
