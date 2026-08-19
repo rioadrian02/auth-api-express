@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import LogoutUserUseCase from '../use_case/LogoutUserUseCase.js';
+import LogoutUserUseCase from '../LogoutUserUseCase.js';
 
 describe('LogoutUserUseCase', () => {
     test('harus berhasil logout dengan menghapus refresh token', async () => {

@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import LoginUserUseCase from '../use_case/LoginUserUseCase.js';
+import LoginUserUseCase from '../LoginUserUseCase.js';
 
 describe('LoginUserUseCase', () => {
     test('harus berhasil login dan mengembalikan access token dan refresh token', async () => {

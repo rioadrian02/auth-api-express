@@ -3,8 +3,9 @@ import { describe, jest } from '@jest/globals';
 import request from 'supertest';
 import createServer from '../http/server.js';
 import DatabaseTestHelper from './helper/DatabaseTestHelper.js';
+import container from './../container.js';
 
-const app = createServer();
+const app = createServer(container);
 
 beforeAll(async () => {
     await DatabaseTestHelper.cleanAll();
@@ -65,6 +66,7 @@ describe('POST /authentications', () => {
                 username: 'budifunctional',
                 password: 'rahasia123'
             });
+            console.log('LOGIN RESPONSE:', res.body);
         expect(res.statusCode).toBe(201);
         expect(res.body.status).toBe('success');
         expect(res.body.data.accessToken).toBeDefined();

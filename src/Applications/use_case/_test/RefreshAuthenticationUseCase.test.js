@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import RefreshAuthenticationUseCase from '../use_case/RefreshAuthenticationUseCase.js';
+import RefreshAuthenticationUseCase from '../RefreshAuthenticationUseCase.js';
 
 describe('RefreshAuthenticationUseCase', () => {
     test('harus mengembalikan acces token kalau berhasil', async () => {

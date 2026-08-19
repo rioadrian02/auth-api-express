@@ -1,4 +1,4 @@
-import AuthenticationError from "../../Commons/exceptions/AuhtenticationError.js";
+import AuthenticationError from "../../Commons/exceptions/AuthenticationError.js";
 import LoginUser from "../../Domains/authentications/entities/LoginUser.js";
 
 class LoginUserUseCase {
