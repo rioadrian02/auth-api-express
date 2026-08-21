@@ -64,7 +64,7 @@ jobs:
           PGHOST: localhost
           PGPORT: 5432
           PGUSER: postgres
-          PGPASSWORD: postgres
+          PGPASSWORD: mysecretpassword
           PGDATABASE: authapi
           PGDATABASE_TEST: authapi_test
           ACCESS_TOKEN_KEY: access_token_secret_for_testing
