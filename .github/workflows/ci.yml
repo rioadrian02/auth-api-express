@@ -65,7 +65,7 @@ jobs:
           PGPORT: 5432
           PGUSER: postgres
           PGPASSWORD: mysecretpassword
-          PGDATABASE: authapi
+          PGDATABASE: authapi_test
           PGDATABASE_TEST: authapi_test
           ACCESS_TOKEN_KEY: access_token_secret_for_testing
           REFRESH_TOKEN_KEY: refresh_token_secret_for_testing
