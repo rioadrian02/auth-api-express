@@ -1,24 +1,31 @@
-name: CI
+name: Continuous Integration
 
 # Jalankan workflow ini setiap kali ada push atau pull request ke branch main
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:
     # Jalankan di Ubuntu
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: ['24.11.0']
+
+
     # setup postgreSQL sebagai service
     services:
       postgres:
-        image: postgres:15
+        image: postgres
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: mysecretpassword
           POSTGRES_DB: authapi_test
         ports:
           - 5432:5432
@@ -38,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{matrix.node-version}}
           cache: "npm"
 
       # install dependencies
@@ -47,11 +54,10 @@ jobs:
 
       # Buat tabel di database test
       - name: Setup database
-        run: |
-          PGPASSWORD=postgres psql -h localhost -U postgres -d authapi_test -c "CREATE TABLE IF NOT EXISTS users (id VARCHAR(50) PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, password TEXT NOT NULL, fullname TEXT NOT NULL, created_at TEXT NOT NULL);"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d authapi_test -c "CREATE TABLE IF NOT EXISTS authentications (token TEXT NOT NULL, user_id VARCHAR(50));"
+        run: npm run migrate up
       # Jalankan test
       - name: Run tests
+        run: npm test
         env:
           PGHOST: localhost
           PGPORT: 5432
@@ -61,4 +67,3 @@ jobs:
           PGDATABASE_TEST: authapi_test
           ACCESS_TOKEN_KEY: access_token_secret_for_testing
           REFRESH_TOKEN_KEY: refresh_token_secret_for_testing
-        run: npm test
